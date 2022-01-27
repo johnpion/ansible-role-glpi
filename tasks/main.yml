@@ -1,0 +1,28 @@
+- name:         check www directory
+  file:
+    path:       /var/www
+    state:      directory
+    owner:      www-data
+    group:      www-data
+    mode:       0750
+
+- name:         check glpi directory
+  stat:
+    path:       /var/www/glpi
+  register:     glpi_directory
+
+- name:         install. stage1
+  unarchive:
+    src:        "https://github.com/glpi-project/glpi/releases/download/{{ glpi_version }}/glpi-{{ glpi_version }}.tgz"
+    dest:       /var/www
+    remote_src: yes
+    owner:      www-data
+    group:      www-data
+  when:         not glpi_directory.stat.exists
+
+- name:         chown www
+  file:
+    owner:      www-data
+    group:      www-data
+    path:       /var/www
+    recurse:    yes
