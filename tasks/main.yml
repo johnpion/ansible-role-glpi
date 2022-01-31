@@ -41,3 +41,9 @@
     group:      www-data
     path:       /var/www
     recurse:    yes
+
+- name: add tasks to cron
+  cron:
+    name: glpi tasks
+    user: www-data
+    job: /usr/bin/php /var/www/glpi/front/cron.php
