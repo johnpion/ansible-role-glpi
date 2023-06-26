@@ -1,5 +1,5 @@
-- name:         install dependencies
-  apt:
+- name: Install dependencies
+  ansible.builtin.apt:
     pkg:
       - php-apcu
       - php-bz2
@@ -13,37 +13,37 @@
       - php-xmlrpc
       - php-zip
 
-- name:         check www directory
-  file:
-    path:       /var/www
-    state:      directory
-    owner:      www-data
-    group:      www-data
-    mode:       0750
+- name: Check www directory
+  ansible.builtin.file:
+    path: /var/www
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "0750"
 
-- name:         check glpi directory
-  stat:
-    path:       /var/www/glpi
-  register:     glpi_directory
+- name: Check glpi directory
+  ansible.builtin.stat:
+    path: /var/www/glpi
+  register: glpi_directory
 
-- name:         install. stage1
-  unarchive:
-    src:        "https://github.com/glpi-project/glpi/releases/download/{{ glpi_version }}/glpi-{{ glpi_version }}.tgz"
-    dest:       /var/www
-    remote_src: yes
-    owner:      www-data
-    group:      www-data
-  when:         not glpi_directory.stat.exists
+- name: Install. Stage1
+  ansible.builtin.unarchive:
+    src: "https://github.com/glpi-project/glpi/releases/download/{{ glpi_version }}/glpi-{{ glpi_version }}.tgz"
+    dest: /var/www
+    remote_src: true
+    owner: www-data
+    group: www-data
+  when: not glpi_directory.stat.exists
 
-- name:         chown www
-  file:
-    owner:      www-data
-    group:      www-data
-    path:       /var/www
-    recurse:    yes
+- name: Chown www
+  ansible.builtin.file:
+    owner: www-data
+    group: www-data
+    path: /var/www
+    recurse: true
 
-- name: add tasks to cron
-  cron:
+- name: Add tasks to cron
+  ansible.builtin.cron:
     name: glpi tasks
     user: www-data
     job: /usr/bin/php /var/www/glpi/front/cron.php

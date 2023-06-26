@@ -1,13 +1,15 @@
 galaxy_info:
-  author:              John Seregin seregin.john@gmail.com
-  license:             license Apache-2.0
-  min_ansible_version: 2.9
-  description:         GLPI
-  role_name:           glpi
-  namespace:           johnpion
-
+  author: Ivan Serohin
+  license: license Apache-2.0
+  role_name: glpi
+  namespace: johnpion
+  description: download files of GLPI
+  min_ansible_version: '2.14'
   platforms:
-  - name:              Debian
-    versions:
-    - buster
-    # - bullseye
+    - name: Debian
+      versions:
+    #     - wheezy
+    #     - jessie
+    #     - stretch
+        - buster
+    #     - bullseye
